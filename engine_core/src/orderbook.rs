@@ -1,7 +1,8 @@
 use crate::{order::Order, price_level::PriceLevel, side::Side};
+use serde::Serialize;
 use std::collections::BTreeMap;
 
-#[derive(Debug)]
+#[derive(Debug, Serialize)]
 pub struct Orderbook {
     pub bids: BTreeMap<u64, PriceLevel>,
     pub asks: BTreeMap<u64, PriceLevel>,
@@ -20,11 +21,8 @@ impl Orderbook {
             Side::Sell => &mut self.asks,
         };
 
-        book_side
-            .entry(order.price)
-            .or_insert_with(PriceLevel::new)
-            .orders
-            .push_back(order);
+        let level = book_side.entry(order.price).or_insert_with(PriceLevel::new);
+        level.add_order(order);
     }
 
     pub fn best_bid_level(&mut self) -> Option<(u64, &PriceLevel)> {

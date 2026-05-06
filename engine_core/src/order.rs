@@ -1,6 +1,7 @@
 use crate::side::Side;
+use serde::*;
 
-#[derive(Debug, Clone)]
+#[derive(Serialize, Debug, Clone)]
 pub struct Order {
     pub id: u64,
     pub price: u64,
@@ -11,10 +12,7 @@ pub struct Order {
 
 impl Order {
     pub fn new(id: u64, price: u64, qty: u64, side: Side) -> Order {
-        let now = std::time::SystemTime::now()
-            .duration_since(std::time::UNIX_EPOCH)
-            .unwrap()
-            .as_nanos();
+        let now = crate::utils::now_nanos();
 
         Order {
             id,
