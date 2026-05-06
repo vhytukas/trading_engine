@@ -1,8 +1,10 @@
 use crate::order::Order;
-use crate::orderbook::Orderbook;
+use crate::orderbook::{self, Orderbook};
 use crate::side::Side;
 use crate::trade::Trade;
+use serde::*;
 
+#[derive(Serialize)]
 pub struct MatchingEngine {
     pub book: Orderbook,
     pub trades: Vec<Trade>,
@@ -61,20 +63,28 @@ impl MatchingEngine {
                 };
 
                 while order.qty > 0 {
-                    let Some(front) = level.orders.front_mut() else {
-                        break;
-                    };
+                    let (maker_id, fill_qty, should_pop) = {
+                        let Some(front) = level.orders.front_mut() else {
+                            break;
+                        };
 
-                    let maker_id = front.id;
-                    let fill_qty = order.qty.min(front.qty);
+                        let maker_id = front.id;
+                        let fill_qty = order.qty.min(front.qty);
+
+                        front.qty -= fill_qty;
+                        let should_pop = front.qty == 0;
+
+                        (maker_id, fill_qty, should_pop)
+                    }; // `front` borrow ends here
 
                     self.trades
                         .push(Trade::new(maker_id, order.id, best_price, fill_qty));
 
                     order.qty -= fill_qty;
-                    front.qty -= fill_qty;
 
-                    if front.qty == 0 {
+                    level.reduce_qty(fill_qty);
+
+                    if should_pop {
                         level.orders.pop_front();
                     }
                 }
@@ -93,5 +103,9 @@ impl MatchingEngine {
                 }
             }
         }
+    }
+
+    pub fn depth_snapshot(&self) -> DepthSnapshot {
+        DepthSnapshot::from_book(&self.book)
     }
 }

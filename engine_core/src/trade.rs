@@ -1,3 +1,6 @@
+use serde::{Deserialize, Serialize};
+
+#[derive(Clone, Serialize, Deserialize)]
 pub struct Trade {
     pub maker_id: u64,
     pub taker_id: u64,
@@ -8,10 +11,7 @@ pub struct Trade {
 
 impl Trade {
     pub fn new(maker_id: u64, taker_id: u64, price: u64, qty: u64) -> Trade {
-        let now = std::time::SystemTime::now()
-            .duration_since(std::time::UNIX_EPOCH)
-            .unwrap()
-            .as_nanos();
+        let now = crate::utils::now_nanos();
 
         Trade {
             maker_id,
