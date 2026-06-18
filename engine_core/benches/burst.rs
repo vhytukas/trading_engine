@@ -26,6 +26,7 @@ fn bench_mixed_burst(c: &mut Criterion, n: u64, lambda: f64) {
             },
             |(mut engine, mut sim)| {
                 run_burst(&mut engine, &mut sim, black_box(n));
+                (engine, sim)
             },
             BatchSize::SmallInput,
         );

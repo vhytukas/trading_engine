@@ -6,14 +6,17 @@ fn bench_insert_into_empty_book(c: &mut Criterion) {
     c.bench_function("insert_into_empty_book", |b| {
         b.iter_batched(
             || MatchingEngine::new(Orderbook::new()),
-            |mut engine| engine.place_limit_order(black_box(100), black_box(10), Side::Buy),
+            |mut engine| {
+                engine.place_limit_order(black_box(100), black_box(10), Side::Buy);
+                engine
+            },
             SmallInput,
         );
     });
 }
 
 fn bench_insert_no_cross_hot_level(c: &mut Criterion) {
-    c.bench_function("insert_into_empty_book", |b| {
+    c.bench_function("insert_no_cross_hot_level", |b| {
         b.iter_batched(
             || {
                 let mut engine = MatchingEngine::new(Orderbook::new());
@@ -26,7 +29,8 @@ fn bench_insert_no_cross_hot_level(c: &mut Criterion) {
             },
             |mut engine| {
                 // measure: insert #101 at the same price (hot level — no new BTreeMap entry)
-                engine.place_limit_order(black_box(100), black_box(10), Side::Buy)
+                engine.place_limit_order(black_box(100), black_box(10), Side::Buy);
+                engine
             },
             SmallInput,
         );
@@ -47,6 +51,7 @@ fn bench_insert_cold_level(c: &mut Criterion) {
             |mut engine| {
                 // measure: insert at a price we haven't seen (new BTreeMap entry + new VecDeque)
                 engine.place_limit_order(black_box(99), black_box(1), Side::Buy);
+                engine
             },
             criterion::BatchSize::SmallInput,
         );

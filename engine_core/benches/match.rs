@@ -15,6 +15,8 @@ fn bench_market_sweep(c: &mut Criterion, n: usize) {
             |mut engine| {
                 // Market buy with qty = n sweeps every level exactly
                 engine.place_market_order(black_box(n as u64), Side::Buy);
+
+                engine
             },
             BatchSize::SmallInput,
         );

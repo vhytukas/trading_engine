@@ -10,6 +10,7 @@ crate-type = ["rlib", "cdylib"]
 serde = { version = "1.0.228", features = ["derive"] }
 rand = { version = "0.8", default-features = false, features = ["std_rng"]}
 rand_chacha = "0.3"
+hdrhistogram = "7"
 
 [dev-dependencies]
 criterion = { version = "0.5", features = ["html_reports"] }
