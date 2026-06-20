@@ -4,6 +4,8 @@ A deterministic matching engine in Rust, running in the browser via WebAssembly.
 
 **[Live demo](<LIVE_URL>)** · **[Architecture](ARCHITECTURE.md)**
 
+![Order book — RustBook UI](docs/images/orderbook.png)
+
 ## Highlights
 
 - **Native p50 ~84 ns / p99.9 ~1.25 µs** matching latency on Apple Silicon (criterion + HDR histogram, burst of 100k mixed limit/market orders)
