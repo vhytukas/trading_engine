@@ -70,10 +70,7 @@ function App() {
 
   useEffect(() => {
     try {
-      localStorage.setItem(
-        RECORDINGS_STORAGE_KEY,
-        JSON.stringify(recordings),
-      );
+      localStorage.setItem(RECORDINGS_STORAGE_KEY, JSON.stringify(recordings));
     } catch (err) {
       console.warn("Failed to persist recordings:", err);
     }
@@ -167,23 +164,18 @@ function App() {
     if (!engineRef.current) return;
 
     try {
-      console.log("orderbook:", engineRef.current.orderbook_full_state?.());
-      console.log("WASM trades count:", engineRef.current.trades());
-    } catch (error) {
-      console.error("WASM call failed:", error);
-    }
+    } catch (error) {}
   };
 
   const handleAddTestTrade = () => {
     if (!engineRef.current) {
-      console.warn("WASM engine is not ready yet");
       toast.error("Engine is not ready yet");
       return;
     }
 
     try {
       engineRef.current.place_limit_order(10125n, 2n, WasmSide.Buy);
-      console.log("Placed test order");
+
       refreshSnapshot();
     } catch (error) {
       console.error("WASM call failed:", error);
@@ -309,7 +301,7 @@ function App() {
           wasmSide,
         );
         const filled = Number(result[1]);
-        console.log("Placed market order:", { qty, side, filled });
+
         refreshSnapshot();
 
         if (filled === 0) {
@@ -328,10 +320,7 @@ function App() {
       const id = Number(
         engineRef.current.place_limit_order(scaledPrice, BigInt(qty), wasmSide),
       );
-      console.log("Placed limit order:", { id, price, qty, side, scaledPrice });
 
-      // Track as open order; refreshSnapshot will reduce qty based on any
-      // trades this placement triggered, and drop it if fully filled.
       setOpenOrders((prev) => [
         ...prev,
         {
@@ -372,10 +361,10 @@ function App() {
           />
           <DepthPanel bids={depth.bids} asks={depth.asks} />
           <TradesPanel
-          trades={tradesList}
-          totalCount={totalTrades}
-          maxDisplayed={MAX_TRADES_DISPLAYED}
-        />
+            trades={tradesList}
+            totalCount={totalTrades}
+            maxDisplayed={MAX_TRADES_DISPLAYED}
+          />
         </section>
 
         <section className="dashboard">
