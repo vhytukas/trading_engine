@@ -319,17 +319,11 @@ function App() {
     }
   };
 
-  const statusText = wasmError
-    ? `WASM error: ${wasmError}`
-    : wasmReady
-      ? "WASM ready"
-      : "WASM loading";
-
   return (
     <Tooltip.Provider delayDuration={150}>
       <main className="screen">
         <Toaster position="top-right" theme="dark" richColors />
-        <TopBar statusText={statusText} />
+        <TopBar />
 
         <section className="grid">
           <OrderEntryPanel onPlaceOrder={handlePlaceOrder} />

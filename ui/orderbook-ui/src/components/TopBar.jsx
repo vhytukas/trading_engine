@@ -1,4 +1,4 @@
-const TopBar = ({ statusText }) => {
+const TopBar = () => {
   return (
     <header className="topbar">
       <div className="brand">
@@ -27,7 +27,6 @@ const TopBar = ({ statusText }) => {
           <span>p99</span>
           <strong>—</strong>
         </div>
-        <span className="status">{statusText}</span>
       </div>
     </header>
   );
