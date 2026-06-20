@@ -43,7 +43,7 @@ function App() {
   const [depth, setDepth] = useState({ bids: [], asks: [] });
   const [tradesList, setTradesList] = useState([]);
   const [totalTrades, setTotalTrades] = useState(0);
-  const [activeTab, setActiveTab] = useState("orders");
+  const [activeTab, setActiveTab] = useState("simulation");
   const [simMetrics, setSimMetrics] = useState(null);
   const activeSimConfigRef = useRef(null);
   const [openOrders, setOpenOrders] = useState([]);
