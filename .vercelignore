@@ -1,0 +1,9 @@
+target/
+**/node_modules/
+**/dist/
+**/.vite/
+
+docs/
+private/
+*.md
+!README.md
