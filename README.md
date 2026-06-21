@@ -2,7 +2,7 @@
 
 A deterministic matching engine in Rust, running in the browser via WebAssembly. Built to demonstrate market-microstructure understanding, low-latency systems thinking, and Rust ownership/borrowing mastery — not as a production exchange, but as a credible research-quality artifact.
 
-**[rust-engine.dev](https://rust-engine.dev)** · **[Architecture](ARCHITECTURE.md)**
+[![Live demo — rust-engine.dev](https://img.shields.io/badge/live%20demo-rust--engine.dev-2ea44f?style=for-the-badge)](https://rust-engine.dev)
 
 ![Order book — RustEngine UI](docs/images/orderbook.png)
 
